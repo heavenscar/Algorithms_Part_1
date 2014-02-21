@@ -5,6 +5,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	private Item[] a;
 	private int N = 0;
 	
+	public RandomizedQueue() { // construct an empty randomized queue
+		a = (Item[]) new Object[1];
+	}
+	
 	private void resize(int max) {// move the queue
 		Item[] temp = (Item[]) new Object[max];
 		for (int i = 0; i < N; i++)
@@ -12,12 +16,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		a = temp;
 	}
 
-	public RandomizedQueue() { // construct an empty randomized queue
-		a = (Item[]) new Object[2];
-		a[0] = null;
-		a[1] = null;
-	}
-	
 	public boolean isEmpty() { // is the queue empty?
 		return N == 0;
 	}
@@ -27,23 +25,30 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 	
 	public void enqueue(Item item) { // add the item
-		if (item == null) throw new NullPointerException();
+		if (item == null) 
+			throw new NullPointerException();
+		
 		if (N == a.length) resize(2*a.length);
 		a[N++] = item;
 	}
 	
 	public Item dequeue() { // delete and return a random item
-		if (isEmpty()) throw new NoSuchElementException("Queue underflow");
+		if (isEmpty()) 
+			throw new NoSuchElementException("Queue underflow");
+		
 		int radindex = StdRandom.uniform(N);
 		Item item = a[radindex];
-		a[radindex] = a[N-1];
-		a[N-1] = null;
-		N--;
+		a[radindex] = a[--N];
+		a[N] = null;
+		if (N > 0 && N == a.length/4) resize(a.length/2);
+		
 		return item;
 	}
 	
 	public Item sample() { // return (but do not delete) a random item
-		if (isEmpty()) throw new NoSuchElementException("Queue underflow");
+		if (isEmpty()) 
+			throw new NoSuchElementException("Queue underflow");
+		
 		int radindex = StdRandom.uniform(N);
 		return a[radindex];
 	}
@@ -52,21 +57,23 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	public Iterator<Item> iterator() { 
 		// return an independent iterator over items in random order
 		// TODO Auto-generated method stub
-		return new ListIterator();
+		return new RandomizedQueueIterator();
 	}
 	
-	private class ListIterator implements Iterator<Item> {
+	private class RandomizedQueueIterator implements Iterator<Item> {
 		private int iter_count = N;
 		public boolean hasNext()
 		{	return iter_count != 0;	}
 		public void remove() {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("Not supported");
 		}
 		public Item next() {
-			if (!hasNext()) throw new NoSuchElementException();
+			if (!hasNext()) 
+				throw new NoSuchElementException();
 			int radindex = StdRandom.uniform(iter_count);
 			Item item = a[radindex];
-			a[radindex] = a[iter_count--];
+			a[radindex] = a[--iter_count];
+			a[iter_count] = item;
 			return item;
 		}
 	}
