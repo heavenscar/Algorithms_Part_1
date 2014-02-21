@@ -70,8 +70,8 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 		public Item next() {
 			if (!hasNext()) 
 				throw new NoSuchElementException();
-			int radindex = StdRandom.uniform(iter_count);
-			Item item = a[radindex];
+			private int radindex = StdRandom.uniform(iter_count);
+			private Item item = a[radindex];
 			a[radindex] = a[--iter_count];
 			a[iter_count] = item;
 			return item;
