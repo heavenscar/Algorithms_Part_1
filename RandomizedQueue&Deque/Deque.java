@@ -47,7 +47,6 @@ public class Deque<Item> implements Iterable<Item> {
 		else
 		{	first.next = oldfirst;	oldfirst.previous = first;	}
 		
-		StdOut.println(last.item);
 		N++;
 	}
 
