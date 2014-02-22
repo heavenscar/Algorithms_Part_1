@@ -61,21 +61,33 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 	}
 	
 	private class RandomizedQueueIterator implements Iterator<Item> {
-		private int iter_count = N;
-		public boolean hasNext()
-		{	return iter_count != 0;	}
+		private int current = 0;
+		private int[] shuffledIndexes = new int[N];
+		
+		public boolean hasNext() {
+			if (current == 0) {
+				for (int i = 0; i < N; i++)
+					shuffledIndexes[i] = i;
+				StdRandom.shuffle(shuffledIndexes);
+			}
+			return current < N;
+		}
+		
 		public void remove() {
-			throw new UnsupportedOperationException("Not supported");
-		}
-		public Item next() {
-			if (!hasNext()) 
+ 			throw new UnsupportedOperationException("Not supported");
+ 		}
+			
+ 		public Item next() {
+			if (current == 0) {
+				for (int i = 0; i < N; i++)
+					shuffledIndexes[i] = i;
+				StdRandom.shuffle(shuffledIndexes);
+			}
+			if (current >= N || size() == 0)  
 				throw new NoSuchElementException();
-			private int radindex = StdRandom.uniform(iter_count);
-			private Item item = a[radindex];
-			a[radindex] = a[--iter_count];
-			a[iter_count] = item;
-			return item;
-		}
+			return a[shuffledIndexes[current++]];
+ 		}
+
 	}
 	
 	public static void main(String[] args) {
