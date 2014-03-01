@@ -11,7 +11,7 @@ public class Fast {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub    
-        Stopwatch t = new Stopwatch();
+        // Stopwatch t = new Stopwatch();
         StdDraw.setXscale(0, 32768);
         StdDraw.setYscale(0, 32768);
         StdDraw.show();
@@ -34,8 +34,12 @@ public class Fast {
         
         // The fast method is meant to find lines by sort slope order for each points
         Quick.sort(points);
-        int count = 1;  // a count for how many points are in the same line
-        int oldline = 0;
+        
+        // a count for how many points are in the same line
+        int count = 1;  
+        
+        // Intuitive way to check permulation and redundancy whether the line is involving an old point
+        int oldline = 0;    
         for (int p = 0; p < N - 3; p++) {
             Quick.sort(points);
             Arrays.sort(points, p+1, N, points[p].SLOPE_ORDER);
@@ -83,7 +87,7 @@ public class Fast {
         }          
         // display
         StdDraw.show(0);  
-        StdOut.println(t.elapsedTime());
+        // StdOut.println(t.elapsedTime());
     }
 
 }
