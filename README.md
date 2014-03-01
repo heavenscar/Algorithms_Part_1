@@ -8,3 +8,5 @@ there should be six programming assignments
 1 Percolation & PercolationStats
 
 2 Deque & RandomizedQueue & Subset
+
+3 Collinear
